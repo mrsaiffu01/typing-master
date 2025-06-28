@@ -2,34 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Typing Master</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="script.js" defer></script>
-  <script src="lang.js" defer></script>
 </head>
 <body>
   <header>
     <div class="logo">TypingMaster</div>
-    <div class="toggle-container">
-      <label class="switch">
-        <input type="checkbox" id="themeToggle" />
-        <span class="slider"></span>
-      </label>
-      <select id="language-select">
-        <option value="en">EN</option>
-        <option value="hi">हिंदी</option>
-      </select>
-    </div>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌓</button>
     <nav>
       <ul>
-        <li><a href="#lessons" data-i18n="lessons">Lessons</a></li>
-        <li><a href="#test" data-i18n="test">Test</a></li>
-        <li><a href="#practice" data-i18n="practice">Practice</a></li>
-        <li><a href="#game" data-i18n="game">Game</a></li>
-        <li><a href="#profile" data-i18n="profile">Profile</a></li>
+        <li><a href="#lessons">Lessons</a></li>
+        <li><a href="#test">Test</a></li>
+        <li><a href="#practice">Practice</a></li>
+        <li><a href="#profile">Profile</a></li>
       </ul>
     </nav>
   </header>
@@ -42,53 +28,28 @@
 
     <section class="content">
       <div class="section" id="lessons">
-        <h2 data-i18n="lessons">Typing Lessons</h2>
-        <ul id="lesson-list">
-          <li><input type="checkbox" data-lesson="1"> Home Row</li>
-          <li><input type="checkbox" data-lesson="2"> Top Row</li>
-          <li><input type="checkbox" data-lesson="3"> Bottom Row</li>
-        </ul>
-        <div class="progress-bar"><div id="lesson-progress-bar"></div></div>
-        <p id="lesson-progress-text"></p>
+        <h2>Typing Lessons</h2>
+        <p>Start from basics. Learn key positions and finger placements.</p>
       </div>
 
       <div class="section" id="test">
-        <h2 data-i18n="test">Typing Test</h2>
-        <select id="difficulty">
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-        <select id="duration">
-          <option value="30">30s</option>
-          <option value="60" selected>1 min</option>
-          <option value="120">2 min</option>
-        </select>
-        <button onclick="startTest()" data-i18n="start">Start</button>
-        <p id="timer-display"></p>
+        <h2>Typing Test</h2>
+        <button onclick="startTest()">Start Test</button>
         <div id="test-area" class="typing-box" contenteditable="true"></div>
         <p id="result"></p>
       </div>
 
       <div class="section" id="practice">
-        <h2 data-i18n="practice">Typing Practice</h2>
-        <textarea placeholder="Type here..."></textarea>
-      </div>
-
-      <div class="section" id="game">
-        <h2 data-i18n="game">Typing Game</h2>
-        <canvas id="gameCanvas" width="400" height="300"></canvas>
-        <button onclick="startGame()">Start Game</button>
-        <p id="gameScore">Score: 0</p>
+        <h2>Typing Practice</h2>
+        <textarea placeholder="Type here to improve your speed..."></textarea>
       </div>
 
       <div class="section" id="profile">
-        <h2 data-i18n="profile">User Profile</h2>
-        <p><strong>Latest WPM:</strong> <span id="latestWPM">-</span></p>
-        <p><strong>Latest Accuracy:</strong> <span id="latestAccuracy">-</span></p>
-        <canvas id="progressChart" width="400" height="200"></canvas>
-        <button onclick="exportCSV()">Download CSV</button>
-        <button onclick="exportPDF()">Download PDF</button>
+        <h2>User Profile</h2>
+        <p><strong>Name:</strong> John Doe</p>
+        <p><strong>Typing Speed:</strong> 45 WPM</p>
+        <p><strong>Accuracy:</strong> 92%</p>
+        <p><strong>Tests Taken:</strong> 10</p>
       </div>
     </section>
   </main>
@@ -96,5 +57,28 @@
   <footer>
     <p>&copy; 2025 TypingMaster. All rights reserved.</p>
   </footer>
+
+  <script>
+    function startTest() {
+      const sampleText = "The quick brown fox jumps over the lazy dog.";
+      const testBox = document.getElementById("test-area");
+      testBox.innerText = sampleText;
+      testBox.focus();
+
+      let startTime = Date.now();
+      testBox.oninput = () => {
+        const typedText = testBox.innerText;
+        if (typedText === sampleText) {
+          const timeTaken = (Date.now() - startTime) / 1000;
+          const wpm = Math.round((typedText.split(" ").length / timeTaken) * 60);
+          document.getElementById("result").innerText = `Typing Speed: ${wpm} WPM`;
+        }
+      };
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+    }
+  </script>
 </body>
 </html>
